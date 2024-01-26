@@ -1,0 +1,6 @@
+@AspNet8DockerDemo_HostAddress = http://localhost:5081
+
+GET {{AspNet8DockerDemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
