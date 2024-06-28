@@ -1,28 +1,23 @@
+﻿namespace AspNet8DockerDemo.Controllers;
+
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNet8DockerDemo.Controllers;
-
 [ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+[Route("weather")]
+public sealed class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
+    private static readonly string[] Summaries =
+    [
         "Freezing", "Bracing", "Chilly", "Cool", "Mild",
         "Warm", "Balmy", "Hot", "Sweltering", "Scorching",
-    };
-
-    private readonly ILogger<WeatherForecastController> _logger;
-
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
-    {
-        _logger = logger;
-    }
+    ];
 
     [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IEnumerable<WeatherForecast>> Get(CancellationToken cancellation = default)
     {
-        await Task.Delay(TimeSpan.FromSeconds(1d));
+        await Task.Delay(TimeSpan.FromSeconds(0.6d), cancellation);
+
+        _ = new byte[0x400000];
 
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
         {
