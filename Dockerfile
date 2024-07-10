@@ -1,7 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-RUN curl -fSL --output ./shared/dotnet-dump https://aka.ms/dotnet-dump/linux-x64
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && curl -fSL --output ./shared/dotnet-dump https://aka.ms/dotnet-dump/linux-x64
 
 COPY *.csproj ./
 RUN dotnet restore
