@@ -14,7 +14,7 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
-COPY --from=build ["/usr/bin/dotnet-dump", "/usr/bin/dotnet-dump"]
+COPY --from=build --chmod=775 ["/usr/bin/dotnet-dump", "/usr/bin/dotnet-dump"]
 
 EXPOSE 8080
 
