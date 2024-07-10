@@ -1,9 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl \
-    && curl -fSL --output ./shared/dotnet-dump https://aka.ms/dotnet-dump/linux-x64
+RUN curl -fSL -o /usr/bin/dotnet-dump https://aka.ms/dotnet-dump/linux-x64
 
 COPY *.csproj ./
 RUN dotnet restore
@@ -16,7 +14,7 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out ./
-COPY --from=build ["./shared/dotnet-dump", "/usr/bin/dotnet-dump"]
+COPY --from=build ["/usr/bin/dotnet-dump", "/usr/bin/dotnet-dump"]
 
 EXPOSE 8080
 
